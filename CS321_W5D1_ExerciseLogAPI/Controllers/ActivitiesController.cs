@@ -85,6 +85,8 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
             return NoContent();
         }
 
+    
+
         // TODO: Class Project: Add new Delete route
     }
 }
