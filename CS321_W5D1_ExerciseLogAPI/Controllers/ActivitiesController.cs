@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CS321_W5D1_ExerciseLogAPI.ApiModels;
 using CS321_W5D1_ExerciseLogAPI.Core.Services;
@@ -28,11 +29,19 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            // TODO: Class Project: Only return users data, unless Admin
-            var activityModels = _activityService
-                .GetAll()
-                .ToApiModels(); // convert activities to ActivityModels
+            // if the user is an Admin, return all activities
+            if (User.IsInRole("Admin"))
+            {
+                var allActivities = _activityService
+                    .GetAll()
+                    .ToApiModels();
+                return Ok(allActivities);
+            }
 
+            // otherwise return only the user's activities
+            var activityModels = _activityService
+                .GetAllForUser(CurrentUserId)
+                .ToApiModels();
             return Ok(activityModels);
         }
 
@@ -41,9 +50,14 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            // TODO: Class Project: Only return users data, unless Admin
             var activity = _activityService.Get(id);
             if (activity == null) return NotFound();
+            // if the activity does not belong to the current user and the current user is not an admin
+            if (activity.UserId != CurrentUserId && !User.IsInRole("Admin"))
+            {
+                ModelState.AddModelError("UserId", "You can only retrieve your own activities.");
+                return BadRequest(ModelState);
+            }
             return Ok(activity.ToApiModel());
         }
 
@@ -85,7 +99,26 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
             return NoContent();
         }
 
-    
+
+        // DELETE /api/activities
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            // code to delete all activities goes here...
+
+            return Ok("Deleted all activities");
+        }
+
+        private string CurrentUserId
+        {
+            get
+            {
+                return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            }
+        }
+
+       
 
         // TODO: Class Project: Add new Delete route
     }

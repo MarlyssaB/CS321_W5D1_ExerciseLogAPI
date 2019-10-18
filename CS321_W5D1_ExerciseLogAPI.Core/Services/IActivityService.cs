@@ -10,6 +10,8 @@ namespace CS321_W5D1_ExerciseLogAPI.Core.Services
         IEnumerable<Activity> GetAll();
         void Remove(Activity Activity);
         Activity Update(Activity updatedActivity);
+
+        IEnumerable<Activity> GetAllForUser(string userId);
         // TODO: Class Project: Add GetAllForUser() method
     }
 }
