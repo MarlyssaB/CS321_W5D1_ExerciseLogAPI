@@ -6,8 +6,8 @@ namespace CS321_W5D1_ExerciseLogAPI.Core.Services
 {
     public class ActivityService : IActivityService
     {
-        private IActivityRepository _activityRepo;
-        private IActivityTypeRepository _activityTypeRepo;
+        private readonly IActivityRepository _activityRepo;
+        private readonly IActivityTypeRepository _activityTypeRepo;
 
         public ActivityService(IActivityRepository activityRepo, IActivityTypeRepository activityTypeRepo)
         {

@@ -29,10 +29,6 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
             _config = configuration;
         }
 
-        public AuthController(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
         // TODO: Prep Part 1: add constructor and inject UserManager 
 
         // TODO: Prep Part 2: inject IConfiguration in the constructor
@@ -53,7 +49,7 @@ namespace CS321_W5D1_ExerciseLogAPI.Controllers
                 // PaswordHashed, which will be assigned when we create the user. It will store
                 // the password in a secure form.
             };
-            // use UserManager to create a new User. Pass in the password so it can be hashed.
+           
             var result = await _userManager.CreateAsync(newUser, registration.Password);
             if (result.Succeeded)
             {

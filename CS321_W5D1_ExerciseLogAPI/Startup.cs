@@ -29,12 +29,11 @@ namespace CS321_W5D1_ExerciseLogAPI
         {
             services.AddDbContext<AppDbContext>();
 
-            services.AddIdentity<User, IdentityRole>()
-         // tell Identity which DbContext to use for user-related tables
-         .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddIdentity<AppUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
+                // tell Identity which DbContext to use for user-related tables
                 .AddEntityFrameworkStores<AppDbContext>();
+
 
             // TODO: Prep Part 1: Add Identity services (Part 1 of prep exercise)
 
@@ -65,12 +64,10 @@ namespace CS321_W5D1_ExerciseLogAPI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // add Identity-related services
-            services.AddIdentity<User, IdentityRole>()
-                // tell Identity which DbContext to use for user-related tables
-                .AddEntityFrameworkStores<AppDbContext>();
+
         }
 
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -90,7 +87,7 @@ namespace CS321_W5D1_ExerciseLogAPI
             app.UseAuthentication();
             app.UseMvc();
             SeedAdminUser(userManager, roleManager);
-                                 
+
         }
         private void SeedAdminUser(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -123,9 +120,11 @@ namespace CS321_W5D1_ExerciseLogAPI
                 }
             }
         }
-
-
-
     }
-
 }
+
+
+
+    
+
+
